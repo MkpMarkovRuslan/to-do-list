@@ -95,7 +95,7 @@ editTask = (index) => {
     done.id = 'svg';
     done.addEventListener('click', async () => {
       if (tempInput.value.trim() === '') {
-        alert('Задача это идея - выраженная в словах. Просто напиши их.')
+        alert('Задача это идея - выраженная в словах. Просто напиши их.');
       } else {
         const resp = await fetch('http://localhost:8000/updateTask', {
           method: 'PATCH',
