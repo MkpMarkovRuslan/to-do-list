@@ -2,13 +2,13 @@ let allTasks = JSON.parse(localStorage.getItem('tasks')) || [];
 let valueInput = '';
 let input = null;
 
-window.onload = async function init () {
+window.onload = async () => {
   input = document.getElementById('add-task');
   input.addEventListener('change', updateValue);
   const resp = await fetch('http://localhost:8000/allTasks', {
     method: 'GET'
   });
-  let result = await resp.json();
+  const result = await resp.json();
   allTasks = result.data;
   localStorage.setItem('tasks', JSON.stringify(allTasks));
 
@@ -48,7 +48,7 @@ onClickButton = async () => {
       }
     )
   });
-  let result = await resp.json();
+  const result = await resp.json();
   allTasks = result.data;
   localStorage.setItem('tasks', JSON.stringify(allTasks));
   valueInput = '';
@@ -66,7 +66,7 @@ deleteTask = async (index) => {
     method: 'DELETE'
   });
 
-  let result = await resp.json();
+  const result = await resp.json();
   allTasks = result.data;
 
   localStorage.setItem('tasks', JSON.stringify(allTasks));
@@ -93,7 +93,7 @@ editTask = (index) => {
     const done = document.createElement('img');
     done.src = './src/done.svg';
     done.id = 'svg';
-    done.addEventListener('click', async function () {
+    done.addEventListener('click', async () => {
       if (tempInput.value.trim() === '') {
         alert('Задача это идея - выраженная в словах. Просто напиши их.')
       } else {
@@ -112,7 +112,7 @@ editTask = (index) => {
           )
         });
 
-        let result = await resp.json();
+        const result = await resp.json();
         allTasks = result.data;
 
         localStorage.setItem('tasks', JSON.stringify(allTasks));
@@ -146,7 +146,7 @@ render = () => {
     const checkBox = document.createElement('input');
     checkBox.type = 'checkbox';
     checkBox.checked = item.isCheck;
-    checkBox.onchange = function () {
+    checkBox.onchange = () => {
       onChangeCheckbox(index);
     };
     container.appendChild(checkBox);
@@ -159,7 +159,7 @@ render = () => {
     const imageEdit = document.createElement('img');
     imageEdit.src = './src/edit.svg';
     container.appendChild(imageEdit);
-    imageEdit.addEventListener('click', function () {
+    imageEdit.addEventListener('click', () => {
       editTask(index);
     });
 
@@ -167,7 +167,7 @@ render = () => {
     imageClose.src = './src/close.svg';
     imageClose.id = `close-${index}`;
     container.appendChild(imageClose);
-    imageClose.addEventListener('click', function () {
+    imageClose.addEventListener('click', () => {
       deleteTask(index);
     });
 
