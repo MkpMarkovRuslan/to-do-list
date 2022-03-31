@@ -1,6 +1,5 @@
 let allTasks = [];
 let valueInput = "";
-let input = null;
 
 const getTasks = async () => {
   const resp = await fetch("http://localhost:8080/api/getAll", {
@@ -11,19 +10,12 @@ const getTasks = async () => {
 };
 
 const sort = () => {
-  const trueArr = [];
-  const falseArr = [];
-
-  allTasks.forEach((element) => {
-    element.ischeck === true ? trueArr.push(element) : falseArr.push(element);
+  allTasks.sort((a, b) => {
+    return a.ischeck > b.ischeck ? 1 : -1;
   });
-
-  allTasks = falseArr.concat(trueArr);
 };
 
 window.onload = async () => {
-  input = document.getElementById("add-task");
-
   await getTasks();
 
   sort();
@@ -48,8 +40,10 @@ onClickButton = async () => {
 
   await getTasks();
 
+  const input = document.getElementById("add-task");
   valueInput = "";
   input.value = "";
+
   render();
 };
 
@@ -83,7 +77,7 @@ editTask = (id) => {
     done.src = "./src/img/done.svg";
     done.id = "svg";
     done.addEventListener("click", async () => {
-      if (tempInput.value.trim() === "") {
+      if (tempInput.value.trim() === false) {
         alert("Задача это идея - выраженная в словах. Просто напиши их.");
       } else {
         const resp = await fetch("http://localhost:8080/api/update", {
@@ -109,7 +103,7 @@ editTask = (id) => {
       task.appendChild(editContainer);
     } else {
       const edit = document.getElementById("edit");
-      const close = document.getElementById(`close-${index}`);
+      const close = document.getElementById(`close-${id}`);
       close.className = "";
       task.removeChild(edit);
     }
